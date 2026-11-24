@@ -1,87 +1,63 @@
-// server create
-const express = require("express");
+//server create
+const express = require('express');
+const noteModel = require('./models/note.model');
 
 const app = express();
 app.use(express.json());
 
+
+/* note={title,description} */
+
 /*
+    POST /notes => create a new note
+    GET /notes => get all notes
+    DELETE /notes/:id => delete a note by id
+    PATCH /notes/:id => update a note by id
 
-note={
-title: "my first note",
-content: "this is my first note"
-  }
-
-  const notes = [
-    {
-      title: "my first note",
-      content: "this is my first note"
-    },
-    {
-      title: "my first note",
-      content: "this is my first note"
-    },
-    {
-      title: "my first note",
-      content: "this is my first note"
-    },
-]  
 */
+app.post("/notes",async (req,res)=>{
+    const data = req.body;/* note={title,description} */
+    await noteModel.create({
+        title:data.title,
+        description:data.description
+    })
+    res.status(201).json({
+        message:"note created successfully"
+    })
+})
 
+app.get("/notes",async (req,res)=>{
+    
+    
+    const notes = await noteModel.find();//array of notes returned from the database
+    // const notes =await noteModel.findOne({
+    //     title:"test_title"
+    // });//array of notes returned from the database
 
-const notes = [];
+    res.status(200).json({
+        message:"notes fetched successfully",
+        notes:notes
+    })
+})
 
-/*  title, description */
+app.delete("/notes/:id",async (req,res)=>{
+    const id = req.params.id;
+    await noteModel.findOneAndDelete({
+        _id:id
+    });
+    res.status(200).json({
+        message:"note deleted successfully"
+    })
+})
 
+app.patch("/notes/:id",async (req,res)=>{
+    const id = req.params.id;
+    const data = req.body;/* note={title,description} */   
+    await noteModel.findOneAndUpdate({_id:id},{description:data.description});
 
-
-/* POST /notes */
-app.post("/notes",(req,res)=>{
-  notes.push(req.body);
-  res.status(201).json({
-    message: "note created successfully"
-  });
-});
-
-
-
-/*get  /notes */
-app.get('/notes',(req,res)=>{
-  res.status(200).json({
-    message: "notes fetched successfully",
-    notes: notes
-  });
-});
-
-
-
-/*delete /notes /:id */
-app.delete('/notes/:index',(req,res)=>{
-  const index = req.params.index; //15
-  delete notes[index];
-
-  res.status(200).json({
-    message: "note deleted successfully"
-  });
-});
-
-
-/*patch /notes/:index  */
-app.patch('/notes/:index',(req,res)=>{
-
-  const index = req.params.index;
-  const title = req.body.title;
-  const description = req.body.description;
-
-  notes[index].title = title;
-  notes[index].description = description;
-
-  res.status(200).json({
-    message:"Note updated sussessfully"
-  });
-
-});
-
-
-
+    res.status(200).json({
+        message:"note updated successfully"
+    })
+})
 
 module.exports = app;

@@ -1,5 +1,0 @@
-$kind: http-request
-name: ""
-url: localhost:3000/notes/1
-method: DELETE
-order: 1000

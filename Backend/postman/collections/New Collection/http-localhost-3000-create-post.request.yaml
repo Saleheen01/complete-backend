@@ -1,0 +1,20 @@
+$kind: http-request
+name: http://localhost:3000/create-post
+description: ""
+url: http://localhost:3000/create-post
+method: POST
+body:
+  type: formdata
+  content:
+    - type: file
+      key: image
+      src:
+        - /C:/Users/saleh/OneDrive/Pictures/Screenshots/Screenshot 2026-11-21 010637.png
+      description: ""
+      disabled: false
+    - type: text
+      key: caption
+      value: test_caption
+      description: ""
+      disabled: false
+order: 1000

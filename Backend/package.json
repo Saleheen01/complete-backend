@@ -4,6 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
+    "start": "node server.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
@@ -19,7 +20,10 @@
   },
   "homepage": "https://github.com/Saleheen01/complete-backend#readme",
   "dependencies": {
+    "@imagekit/nodejs": "^7.15.0",
+    "dotenv": "^18.0.10",
     "express": "^5.3.0",
-    "mongoose": "^9.13.0"
+    "mongoose": "^9.13.1",
+    "multer": "^2.5.0"
   }
 }
